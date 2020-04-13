@@ -1,0 +1,451 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Lessons estimation project",
+    "title": "HSE estimation API.",
+    "contact": {
+      "name": "Alexandr Komarov",
+      "email": "amkomarov@edu.hse.ru"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost",
+  "basePath": "/api/v1/",
+  "paths": {
+    "/answer": {
+      "post": {
+        "description": "Adds answers to answers table",
+        "tags": [
+          "Answers"
+        ],
+        "operationId": "PostAnswer",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/RequestPostAnswer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/statusOkResponse"
+          },
+          "400": {
+            "$ref": "#/responses/badRequestResponse"
+          },
+          "500": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/answers": {
+      "get": {
+        "description": "Gets answers from answers table",
+        "tags": [
+          "Answers"
+        ],
+        "operationId": "GetAnswers",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/answersList"
+          },
+          "500": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      },
+      "post": {
+        "description": "Adds many answers to answers table",
+        "tags": [
+          "Answers"
+        ],
+        "operationId": "PostAnswers",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RequestPostAnswer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/statusOkResponse"
+          },
+          "400": {
+            "$ref": "#/responses/badRequestResponse"
+          },
+          "500": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "description": "Get groups by search filter",
+        "tags": [
+          "Groups"
+        ],
+        "operationId": "GetGroups",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "search string example - БИВ",
+            "name": "search",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/groupList"
+          },
+          "400": {
+            "$ref": "#/responses/badRequestResponse"
+          },
+          "500": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/lessons": {
+      "get": {
+        "description": "Get lessons by filter criteria",
+        "tags": [
+          "Lessons"
+        ],
+        "operationId": "GetLessons",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "group / student",
+            "name": "request_type",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "group / student id",
+            "name": "id",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "start date example - 2020.01.20",
+            "name": "start_date",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "end date example - 2020.01.26",
+            "name": "end_date",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/lessonList"
+          },
+          "400": {
+            "$ref": "#/responses/badRequestResponse"
+          },
+          "500": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    },
+    "/students": {
+      "get": {
+        "description": "Get students by search filter",
+        "tags": [
+          "Students"
+        ],
+        "operationId": "GetStudents",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "search string example - Александр ...",
+            "name": "search",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/studentList"
+          },
+          "400": {
+            "$ref": "#/responses/badRequestResponse"
+          },
+          "500": {
+            "$ref": "#/responses/errorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Answer": {
+      "type": "object",
+      "properties": {
+        "answer": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Answer"
+        },
+        "beginLesson": {
+          "type": "string",
+          "x-go-name": "BeginLesson"
+        },
+        "createdAt": {
+          "type": "string",
+          "x-go-name": "CreatedAt"
+        },
+        "date": {
+          "type": "string",
+          "x-go-name": "Date"
+        },
+        "discipline": {
+          "type": "string",
+          "x-go-name": "Discipline"
+        },
+        "endLesson": {
+          "type": "string",
+          "x-go-name": "EndLesson"
+        },
+        "from": {
+          "type": "string",
+          "x-go-name": "From"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "kindOfWork": {
+          "type": "string",
+          "x-go-name": "KindOfWork"
+        },
+        "lecturer": {
+          "type": "string",
+          "x-go-name": "Lecturer"
+        },
+        "question": {
+          "type": "string",
+          "x-go-name": "Question"
+        },
+        "willCome": {
+          "type": "boolean",
+          "x-go-name": "WillCome"
+        }
+      },
+      "x-go-package": "awesomeProject3/api"
+    },
+    "Group": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "id": {
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "label": {
+          "type": "string",
+          "x-go-name": "Label"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "awesomeProject3/api"
+    },
+    "Lesson": {
+      "type": "object",
+      "properties": {
+        "auditorium": {
+          "type": "string",
+          "x-go-name": "Auditorium"
+        },
+        "beginLesson": {
+          "type": "string",
+          "x-go-name": "BeginLesson"
+        },
+        "building": {
+          "type": "string",
+          "x-go-name": "Building"
+        },
+        "date": {
+          "type": "string",
+          "x-go-name": "Date"
+        },
+        "dayOfWeek": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DayOfWeek"
+        },
+        "discipline": {
+          "type": "string",
+          "x-go-name": "Discipline"
+        },
+        "endLesson": {
+          "type": "string",
+          "x-go-name": "EndLesson"
+        },
+        "kindOfWork": {
+          "type": "string",
+          "x-go-name": "KindOfWork"
+        },
+        "lecturer": {
+          "type": "string",
+          "x-go-name": "Lecturer"
+        }
+      },
+      "x-go-package": "awesomeProject3/api"
+    },
+    "RequestPostAnswer": {
+      "type": "object",
+      "properties": {
+        "answer": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Answer"
+        },
+        "beginLesson": {
+          "type": "string",
+          "x-go-name": "BeginLesson"
+        },
+        "date": {
+          "type": "string",
+          "x-go-name": "Date"
+        },
+        "discipline": {
+          "type": "string",
+          "x-go-name": "Discipline"
+        },
+        "endLesson": {
+          "type": "string",
+          "x-go-name": "EndLesson"
+        },
+        "from": {
+          "type": "string",
+          "x-go-name": "From"
+        },
+        "kindOfWork": {
+          "type": "string",
+          "x-go-name": "KindOfWork"
+        },
+        "lecturer": {
+          "type": "string",
+          "x-go-name": "Lecturer"
+        },
+        "question": {
+          "type": "string",
+          "x-go-name": "Question"
+        },
+        "willCome": {
+          "type": "boolean",
+          "x-go-name": "WillCome"
+        }
+      },
+      "x-go-package": "awesomeProject3/api"
+    }
+  },
+  "responses": {
+    "answersList": {
+      "description": "Answers list",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Answer"
+        }
+      }
+    },
+    "badRequestResponse": {
+      "description": "Bad request",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string",
+            "x-go-name": "Error"
+          }
+        }
+      }
+    },
+    "errorResponse": {
+      "description": "Error while processing request",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Error message",
+            "type": "string",
+            "x-go-name": "Error"
+          }
+        }
+      }
+    },
+    "groupList": {
+      "description": "Groups",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Group"
+        }
+      }
+    },
+    "lessonList": {
+      "description": "Lessons",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Lesson"
+        }
+      }
+    },
+    "notFoundResponse": {
+      "description": "File not found"
+    },
+    "statusOkResponse": {
+      "description": "Empty response",
+      "schema": {
+        "type": "object"
+      }
+    },
+    "studentList": {
+      "description": "Students",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Group"
+        }
+      }
+    }
+  }
+}
